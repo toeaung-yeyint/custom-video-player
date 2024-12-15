@@ -20,7 +20,7 @@ body {
 }
 #video-info {
 	position: relative;
-	margin-top: 40px;
+	margin-top: 36px;
 	padding: 20px;
 	order: 1;
 }
@@ -54,7 +54,7 @@ body {
 	background-position: center;
 	background-size: cover;
 	width: 100%;
-	height: calc(100% + 40px);
+	height: calc(100% + 36px);
 	cursor: pointer;
 	z-index: 2;
 }
@@ -101,34 +101,15 @@ body {
 	text-align: center;
 	z-index: 3;
 }
-@media screen and (max-width: 480px) {
-	#video-play-btn {
-		width: 62.5px;
-		height: 62.5px;
-	}
-	#video-play-btn img {
-		margin-left: 5px;
-		width: 25px;
-	}
-	#video-duration {
-		width: 50px;
-		height: 25px;
-	}
-	#video-published-date,
-	#video-duration {
-		font-size: 14px;
-		line-height: 24px;
-	}
-}
 #video-controls {
 	position: absolute;
-	bottom: -40px;
+	bottom: -36px;
 	width: 100%;
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
-	padding: 7px 5px;
-	gap: 5px;
+	padding: 5px 5px;
+	gap: 3px;
 	background: black;
 	z-index: 1;
 	visibility: hidden;
@@ -149,21 +130,22 @@ body {
 	background-color: #009f4d;
 }
 .control-btn img {
-	width: 18px;
-	height: 18px;
+	width: 16px;
+	height: 16px;
 	object-fit: fill;
 }
 .control-bar {
 	accent-color: #009f4d;
-	height: 6px;
+	height: 5px;
 }
 .seek-bar {
 	flex-grow: 1;
-	width: 90%;
+	min-width: 10%;
 }
 label[for="seek-bar"] {
 	color: white;
 	font-size: 14px;
+	white-space: nowrap;
 }
 .volume-bar {
 	max-width: 10%;
@@ -209,4 +191,23 @@ label[for="seek-bar"] {
 #playback-speed option {
 	background-color: black;
 	color: white;
+}
+@media screen and (max-width: 480px) {
+	#video-play-btn {
+		width: 62.5px;
+		height: 62.5px;
+	}
+	#video-play-btn img {
+		margin-left: 5px;
+		width: 25px;
+	}
+	#video-duration {
+		width: 50px;
+		height: 25px;
+	}
+	#video-published-date,
+	#video-duration {
+		font-size: 14px;
+		line-height: 24px;
+	}
 }

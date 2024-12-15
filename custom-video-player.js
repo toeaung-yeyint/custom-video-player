@@ -23,7 +23,7 @@ function onYouTubeIframeAPIReady() {
 	player = new YT.Player("video-player", {
 		videoId: videoId,
 		playerVars: {
-			controls: 1,
+			controls: 0,
 			rel: 0,
 			playsinline: 1,
 		},
@@ -37,17 +37,19 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady() {
 	videoplayBtn.addEventListener("click", handleThumbnailPlayBtn);
 	playPauseBtn.addEventListener("click", handlePlayPauseBtn);
+	seekBar.addEventListener("input", (e) => handleSeekBar(e));
 }
 
 function onPlayerStateChange(event) {
 	if (event.data === 1) {
 		playPauseBtn.innerHTML = '<img src="pause-solid.svg" alt="">';
 		playPauseBtn.ariaPressed = "true";
+		updateSeekBar();
 	}
 	if (event.data === 0) {
 		videoThumbnail.style.display = "block";
 		videoplayBtn.style.display = "flex";
-		videoDuration.style.display = "block";
+		videoDuration.style.display = "flex";
 		videoControls.style.visibility = "hidden";
 		const videoPlayer = document.querySelector("#video-player");
 		videoPlayer.style.visibility = "hidden";
@@ -89,5 +91,34 @@ const handlePlayPauseBtn = () => {
 		player.pauseVideo();
 	} else {
 		player.playVideo();
+	}
+};
+
+const handleSeekBar = (e) => {
+	const seekTo = (player.getDuration() * e.target.value) / 100;
+	player.seekTo(seekTo);
+	const currentTime = player.getCurrentTime();
+	seekBarLabel.textContent = `${formatTime(currentTime)} / ${formatTime(
+		player.getDuration()
+	)}`;
+	seekBar.setAttribute(
+		"aria-valuetext",
+		`${formatTime(currentTime)} of ${videoDuration.textContent.trim()}`
+	);
+};
+
+const updateSeekBar = () => {
+	if (player.getPlayerState() === 1) {
+		const currentTime = player.getCurrentTime();
+		const progress = (currentTime / player.getDuration()) * 100;
+		seekBar.value = progress;
+		seekBarLabel.textContent = `${formatTime(
+			currentTime
+		)} / ${videoDuration.textContent.trim()}`;
+		seekBar.setAttribute(
+			"aria-valuetext",
+			`${formatTime(currentTime)} of ${videoDuration.textContent.trim()}`
+		);
+		setTimeout(updateSeekBar, 100);
 	}
 };
