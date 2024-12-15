@@ -25,6 +25,7 @@ function onYouTubeIframeAPIReady() {
 		playerVars: {
 			controls: 1,
 			rel: 0,
+			playsinline: 1,
 		},
 		events: {
 			onReady: onPlayerReady,
@@ -33,7 +34,10 @@ function onYouTubeIframeAPIReady() {
 	});
 }
 
-function onPlayerReady() {}
+function onPlayerReady() {
+	videoplayBtn.addEventListener("click", handleThumbnailPlayBtn);
+	playPauseBtn.addEventListener("click", handlePlayPauseBtn);
+}
 
 function onPlayerStateChange(event) {
 	if (event.data === 1) {
@@ -68,3 +72,22 @@ function formatTime(seconds) {
 		return `${mins}:${secs.toString().padStart(2, "0")}`;
 	}
 }
+
+const handleThumbnailPlayBtn = () => {
+	videoThumbnail.style.display = "none";
+	videoplayBtn.style.display = "none";
+	videoDuration.style.display = "none";
+	const videoPlayer = document.querySelector("#video-player");
+	videoControls.style.visibility = "visible";
+	videoPlayer.style.visibility = "visible";
+	player.playVideo();
+	playPauseBtn.focus();
+};
+
+const handlePlayPauseBtn = () => {
+	if (player.getPlayerState() === 1) {
+		player.pauseVideo();
+	} else {
+		player.playVideo();
+	}
+};
