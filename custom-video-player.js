@@ -17,6 +17,8 @@ const videoControls = document.querySelector("#video-controls");
 const playPauseBtn = document.querySelector(".play-pause-btn");
 const seekBar = document.querySelector(".seek-bar");
 const seekBarLabel = document.querySelector('label[for="seek-bar"]');
+const muteBtn = document.querySelector(".mute-btn");
+const volumeBar = document.querySelector(".volume-bar");
 
 let player;
 function onYouTubeIframeAPIReady() {
@@ -38,6 +40,8 @@ function onPlayerReady() {
 	videoplayBtn.addEventListener("click", handleThumbnailPlayBtn);
 	playPauseBtn.addEventListener("click", handlePlayPauseBtn);
 	seekBar.addEventListener("input", (e) => handleSeekBar(e));
+	muteBtn.addEventListener("click", handleMuteBtn);
+	volumeBar.addEventListener("input", (e) => handleVolumeBar(e));
 }
 
 function onPlayerStateChange(event) {
@@ -120,5 +124,31 @@ const updateSeekBar = () => {
 			`${formatTime(currentTime)} of ${videoDuration.textContent.trim()}`
 		);
 		setTimeout(updateSeekBar, 100);
+	}
+};
+
+const handleMuteBtn = () => {
+	const isMuted = player.isMuted();
+	if (isMuted) {
+		player.unMute();
+		volumeBar.value = player.getVolume();
+		muteBtn.innerHTML = '<img src="volume-up-solid.svg" alt="" />';
+		muteBtn.ariaPressed = "false";
+	} else {
+		player.mute();
+		volumeBar.value = 0;
+		muteBtn.innerHTML = '<img src="volume-mute-solid.svg" alt="" />';
+		muteBtn.ariaPressed = "true";
+	}
+};
+
+const handleVolumeBar = (e) => {
+	player.setVolume(e.target.value);
+	if (Number.parseInt(e.target.value) === 0) {
+		muteBtn.innerHTML = '<img src="volume-mute-solid.svg" alt="" />';
+		muteBtn.ariaPressed = "true";
+	} else {
+		muteBtn.innerHTML = '<img src="volume-up-solid.svg" alt="" />';
+		muteBtn.ariaPressed = "false";
 	}
 };
