@@ -12,8 +12,9 @@ videoThumbnail.style.backgroundImage = `url(https://img.youtube.com/vi/${videoId
 const videoDuration = document.querySelector("#video-duration");
 videoDuration.ariaLabel = `Duration: ${videoDuration.textContent.trim()}`;
 
-// select video control elements
 const videoplayBtn = document.querySelector("#video-play-btn");
+videoplayBtn.ariaLabel = `Play, ${videoTitle.textContent}`;
+
 const videoControls = document.querySelector("#video-controls");
 
 // Utility functions
@@ -176,6 +177,69 @@ const initializeCaptionBtn = () => {
   });
 };
 
+const initializeSettingsBtn = () => {
+  const settingsBtn = document.createElement("button");
+  settingsBtn.innerHTML = '<img src="cog-solid.svg" />';
+  settingsBtn.classList.add("control-btn", "settings-btn");
+  settingsBtn.setAttribute("aria-label", "Settings");
+  settingsBtn.setAttribute("aria-pressed", "false");
+  settingsBtn.setAttribute("aria-expanded", "false");
+  settingsBtn.setAttribute("aria-haspopup", "true");
+  videoControls.appendChild(settingsBtn);
+
+  const settingsMenu = document.createElement("div");
+  settingsMenu.id = "settings-menu";
+  const speedLabel = document.createElement("label");
+  speedLabel.setAttribute("for", "playback-speed");
+  speedLabel.textContent = "Playback Speed:";
+  const speedSelect = document.createElement("select");
+  speedSelect.id = "playback-speed";
+  const speeds = [0.25, 0.5, 1, 1.5, 2];
+  speeds.forEach((speed) => {
+    const option = document.createElement("option");
+    option.value = speed;
+    option.textContent = `${speed}x`;
+    if (speed === 1) option.selected = true;
+    speedSelect.appendChild(option);
+  });
+  settingsMenu.appendChild(speedLabel);
+  settingsMenu.appendChild(speedSelect);
+  videoControls.appendChild(settingsMenu);
+
+  settingsBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isActive = settingsMenu.classList.contains("active");
+    if (isActive) {
+      settingsBtn.classList.remove("active");
+      settingsMenu.classList.remove("active");
+      settingsBtn.ariaPressed = "false";
+      settingsBtn.ariaExpanded = "false";
+      settingsBtn.focus();
+    } else {
+      settingsBtn.classList.add("active");
+      settingsMenu.classList.add("active");
+      settingsBtn.ariaPressed = "true";
+      settingsBtn.ariaExpanded = "true";
+      speedSelect.focus();
+    }
+  });
+
+  settingsMenu.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      settingsMenu.classList.remove("active");
+      settingsBtn.classList.remove("active");
+      settingsBtn.ariaPressed = "false";
+      settingsBtn.ariaExpanded = "false";
+      settingsBtn.focus();
+    }
+  });
+
+  speedSelect.addEventListener("change", (e) => {
+    const speed = parseFloat(e.target.value);
+    player.setPlaybackRate(speed);
+  });
+};
+
 // Create a YouTube video player after YouTube Iframe is ready
 let player;
 function onYouTubeIframeAPIReady() {
@@ -195,6 +259,7 @@ function onPlayerReady() {
   initializeMuteBtn();
   initializeVolumeBar();
   initializeCaptionBtn();
+  initializeSettingsBtn();
 }
 
 function onPlayerStateChange(event) {
