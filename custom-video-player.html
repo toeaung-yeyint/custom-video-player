@@ -1,109 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" href="html.ico" type="image/png" />
-		<link rel="stylesheet" href="custom-video-player.css" />
-		<script async src="https://www.youtube.com/iframe_api"></script>
-		<script defer src="custom-video-player.js"></script>
-		<title>Custom Video Player</title>
-	</head>
-	<body>
-		<div id="video-card">
-			<div id="video-info">
-				<div role="none">
-					<p id="video-title" aria-hidden="true">Welcome to the SuperStrong</p>
-				</div>
-
-				<div role="none">
-					<p id="video-published-date" aria-hidden="true">26 May 2016</p>
-				</div>
-			</div>
-			<div id="video-container">
-				<div
-					id="video-player"
-					tabindex="-1"
-					aria-hidden="ture"
-					data-video-id="nK_nnuRBmF4"
-				></div>
-				<div id="video-thumbnail" aria-hidden="ture"></div>
-
-				<button id="video-play-btn" aria-label="play">
-					<img src="play-solid.svg" alt="" />
-				</button>
-				<div id="video-duration"><span aria-hidden="true">1:43</span></div>
-				<div id="video-controls">
-					<button
-						class="control-btn play-pause-btn"
-						aria-label="Play"
-						aria-pressed="false"
-						tabindex="0"
-					>
-						<img src="play-solid.svg" alt="" />
-					</button>
-					<input
-						type="range"
-						id="seek-bar"
-						class="control-bar seek-bar"
-						value="0"
-						max="100"
-						aria-label="seek"
-					/>
-					<label for="seek-bar">N/A</label>
-					<button
-						class="control-btn mute-btn"
-						aria-label="Mute"
-						aria-pressed="false"
-					>
-						<img src="volume-up-solid.svg" alt="" />
-					</button>
-					<input
-						type="range"
-						class="control-bar volume-bar"
-						value="100"
-						max="100"
-						aria-label="volume"
-					/>
-					<button
-						class="control-btn subtitle-btn"
-						aria-label="Enabled captions"
-						aria-pressed="false"
-					>
-						<img src="closed-captioning-regular.svg" alt="" />
-					</button>
-					<button
-						class="control-btn settings-btn"
-						aria-label="Settings"
-						aria-pressed="false"
-						aria-expanded="false"
-						aria-haspopup="true"
-					>
-						<img src="cog-solid.svg" />
-					</button>
-					<div id="settings-menu">
-						<label for="playback-speed">Playback Speed:</label>
-						<select id="playback-speed">
-							<option value="0.25">0.25x</option>
-
-							<option value="0.5">0.5x</option>
-
-							<option value="1" selected>1x</option>
-
-							<option value="1.5">1.5x</option>
-
-							<option value="2">2x</option>
-						</select>
-					</div>
-					<button
-						class="control-btn fullscreen-btn"
-						aria-label="Enter fullscreen"
-						aria-pressed="false"
-					>
-						<img src="expand-solid.svg" alt="" />
-					</button>
-				</div>
-			</div>
-		</div>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="html.ico" type="image/png" />
+    <link rel="stylesheet" href="custom-video-player.css" />
+    <script async src="https://www.youtube.com/iframe_api"></script>
+    <script defer src="custom-video-player.js"></script>
+    <title>Custom Video Player</title>
+  </head>
+  <body>
+    <div id="video-card">
+      <div id="video-info">
+        <div role="none">
+          <p id="video-title" aria-hidden="true">Welcome to the SuperStrong</p>
+        </div>
+        <div role="none">
+          <p id="video-published-date" aria-hidden="true">26 May 2016</p>
+        </div>
+      </div>
+      <div id="video-container">
+        <iframe
+          id="video-player"
+          tabindex="-1"
+          aria-hidden="ture"
+          src="https://www.youtube.com/embed/nK_nnuRBmF4?controls=0&rel=0&enablejsapi=1"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        >
+        </iframe>
+        <div id="video-thumbnail" aria-hidden="ture"></div>
+        <button id="video-play-btn" aria-label="play">
+          <img src="play-solid.svg" alt="" />
+        </button>
+        <div id="video-duration"><span aria-hidden="true">1:43</span></div>
+        <div id="video-controls"></div>
+      </div>
+    </div>
+  </body>
 </html>
