@@ -115,6 +115,7 @@ const initializeMuteBtn = () => {
   muteBtn.setAttribute("aria-label", "Mute");
   muteBtn.setAttribute("aria-pressed", "false");
   videoControls.appendChild(muteBtn);
+
   muteBtn.addEventListener("click", () => {
     const volumeBar = document.querySelector(".volume-bar");
     const isMuted = player.isMuted();
@@ -140,6 +141,7 @@ const initializeVolumeBar = (e) => {
   volumeBar.max = 100;
   volumeBar.setAttribute("aria-label", "volume");
   videoControls.appendChild(volumeBar);
+
   volumeBar.addEventListener("input", (e) => {
     const muteBtn = document.querySelector(".mute-btn");
     player.setVolume(e.target.value);
@@ -161,6 +163,7 @@ const initializeCaptionBtn = () => {
   captionBtn.setAttribute("aria-pressed", "false");
   videoControls.appendChild(captionBtn);
   let isCaptionEnabled = false;
+
   captionBtn.addEventListener("click", () => {
     if (isCaptionEnabled) {
       captionBtn.innerHTML =
@@ -240,6 +243,39 @@ const initializeSettingsBtn = () => {
   });
 };
 
+const initializeFullscreenBtn = () => {
+  const fullscreenBtn = document.createElement("button");
+  fullscreenBtn.innerHTML = '<img src="expand-solid.svg" alt="" />';
+  fullscreenBtn.classList.add("control-btn", "fullscreen-btn");
+  fullscreenBtn.setAttribute("aria-label", "Enter fullscreen");
+  fullscreenBtn.setAttribute("aria-pressed", "false");
+  videoControls.appendChild(fullscreenBtn);
+
+  fullscreenBtn.addEventListener("click", () => {
+    const videoContainer = document.querySelector("#video-container");
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+      videoControls.style.bottom = "-36px";
+      fullscreenBtn.ariaPressed = "false";
+    } else {
+      videoContainer.requestFullscreen();
+      videoControls.style.bottom = "0";
+      fullscreenBtn.ariaPressed = "true";
+    }
+  });
+
+  document.addEventListener("fullscreenchange", () => {
+    const isFullscreen = !!document.fullscreenElement;
+    if (isFullscreen) {
+      videoControls.style.bottom = "0";
+      fullscreenBtn.ariaPressed = "true";
+    } else {
+      videoControls.style.bottom = "-36px";
+      fullscreenBtn.ariaPressed = "false";
+    }
+  });
+};
+
 // Create a YouTube video player after YouTube Iframe is ready
 let player;
 function onYouTubeIframeAPIReady() {
@@ -260,6 +296,7 @@ function onPlayerReady() {
   initializeVolumeBar();
   initializeCaptionBtn();
   initializeSettingsBtn();
+  initializeFullscreenBtn();
 }
 
 function onPlayerStateChange(event) {
