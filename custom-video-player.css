@@ -218,4 +218,7 @@ body {
 		font-size: 14px;
 		line-height: 24px;
 	}
+	.progress-bar-label {
+		display: none;
+	}
 }
