@@ -1,3 +1,8 @@
+/**
+ * Formats a given time in seconds into a string with the format HH:MM:SS or MM:SS.
+ * @param {number} seconds - The time in seconds to format.
+ * @returns {string} The formatted time string.
+ */
 const formatTime = (seconds) => {
 	const hrs = Math.floor(seconds / 3600);
 	const mins = Math.floor((seconds % 3600) / 60);
@@ -9,6 +14,12 @@ const formatTime = (seconds) => {
 		: `${mins}:${secs.toString().padStart(2, "0")}`;
 };
 
+/**
+ * Initializes the thumbnail play button functionality.
+ * When the thumbnail play button is clicked, it hides the video thumbnail,
+ * hides the play button, hides the video duration, makes the video controls visible,
+ * makes the video player visible, and starts playing the video.
+ */
 const initializeThumbnailPlayBtn = () => {
 	const thumbnailPlayBtn = document.querySelector(".thumbnail-play-btn");
 	thumbnailPlayBtn.addEventListener("click", () => {
@@ -22,6 +33,12 @@ const initializeThumbnailPlayBtn = () => {
 	});
 };
 
+/**
+ * Initializes the play/pause button for the custom video player.
+ * Creates a button element with an image icon, sets its attributes,
+ * and appends it to the video controls. It also adds an event listener to toggle
+ * between playing and pausing the video when the button is clicked.
+ */
 const initializePlayPauseBtn = () => {
 	const playPauseBtn = document.createElement("button");
 	const playPauseIcon = document.createElement("img");
@@ -38,6 +55,14 @@ const initializePlayPauseBtn = () => {
 	});
 };
 
+/**
+ * Initializes the progress bar for the custom video player.
+ * Creates an input element of type range to serve as the progress bar,
+ * and a label to display the current time and duration of the video.
+ * Appends these elements to the video controls container.
+ * Adds an input event listener to the progress bar to update the video's
+ * current time and the label's text content as the user interacts with the progress bar.
+ */
 const initializeProgressBar = () => {
 	const progressBar = document.createElement("input");
 	progressBar.type = "range";
@@ -64,6 +89,12 @@ const initializeProgressBar = () => {
 	});
 };
 
+/**
+ * Updates the progress bar and its label based on the current playback time of the video player.
+ * This function is called recursively every 100 milliseconds while the video is playing.
+ * It retrieves the current playback time and calculates the progress percentage,
+ * then updates the progress bar's value and label with the formatted current time and total duration.
+ */
 const updateProgressBar = () => {
 	const progressBar = document.querySelector(".progress-bar");
 	const progressBarLabel = document.querySelector(".progress-bar-label");
@@ -82,6 +113,11 @@ const updateProgressBar = () => {
 	}
 };
 
+/**
+ * Initializes the mute button for the custom video player.
+ * Creates a button element with an image icon, sets its attributes, and appends it to the video controls.
+ * Adds an event listener to handle the mute/unmute functionality, updating the button icon and volume bar.
+ */
 const initializeMuteBtn = () => {
 	const muteBtn = document.createElement("button");
 	const muteIcon = document.createElement("img");
@@ -110,6 +146,11 @@ const initializeMuteBtn = () => {
 	});
 };
 
+/**
+ * Initializes the volume bar control for the custom video player.
+ * Creates an input element of type range, sets its attributes, and appends it to the video controls.
+ * Adds an event listener to update the player's volume and change the mute button icon based on the volume level.
+ */
 const initializeVolumeBar = () => {
 	const volumeBar = document.createElement("input");
 	volumeBar.type = "range";
@@ -132,6 +173,11 @@ const initializeVolumeBar = () => {
 	});
 };
 
+/**
+ * Initializes the caption button for the custom video player.
+ * Creates a button element with an image icon, sets its attributes, and appends it to the video controls.
+ * Adds an event listener to toggle the captions on and off when the button is clicked.
+ */
 const initializeCaptionBtn = () => {
 	const captionBtn = document.createElement("button");
 	const captionIcon = document.createElement("img");
@@ -159,6 +205,14 @@ const initializeCaptionBtn = () => {
 	});
 };
 
+/**
+ * Initializes the settings button and menu for the custom video player.
+ * Creates a settings button with an icon, appends it to the video controls,
+ * and sets up a settings menu with playback speed options.
+ * Adds event listeners to handle interactions with the settings button and menu, including opening and closing the menu,
+ * changing playback speed, and handling focus and keyboard events.
+ *
+ */
 const initializeSettingsBtn = () => {
 	const settingsBtn = document.createElement("button");
 	const settingsIcon = document.createElement("img");
@@ -227,6 +281,11 @@ const initializeSettingsBtn = () => {
 	});
 };
 
+/**
+ * Initializes the fullscreen button for the custom video player.
+ * Creates a button element with an icon, sets its attributes, and appends it to the video controls.
+ * Adds event listeners to handle entering and exiting fullscreen mode, and updates the button's state accordingly.
+ */
 const initializeFullscreenBtn = () => {
 	const fullscreenBtn = document.createElement("button");
 	const fullscreenIcon = document.createElement("img");
@@ -261,7 +320,10 @@ const initializeFullscreenBtn = () => {
 	});
 };
 
+// Retrieves the video ID from the data attribute of the element to create a video-player.
 const videoId = document.querySelector("#video-player").dataset.videoId;
+
+// Set the video thumbnail, play button, and duration based on the video ID.
 const videoThumbnail = document.querySelector(".video-thumbnail");
 videoThumbnail.style.backgroundImage = `url(https://img.youtube.com/vi/${videoId}/maxresdefault.jpg)`;
 const thumbnailPlayBtn = document.querySelector(".thumbnail-play-btn");
@@ -269,10 +331,18 @@ thumbnailPlayBtn.setAttribute(
 	"aria-label",
 	`Play, ${document.querySelector(".video-title").textContent}`
 );
+
+// Select video duration element to display the total duration of the video.
 const videoDuration = document.querySelector(".video-duration");
+
+// Select video Container and video Controls for the custom video player.
 const videoContainer = document.querySelector(".video-container");
 const videoControls = document.querySelector(".video-controls");
 
+/**
+ * This function is called when the YouTube IFrame API is ready.
+ * It initializes the YouTube player if it hasn't been initialized already.
+ */
 let isApiReady = false;
 function onYouTubeIframeAPIReady() {
 	if (isApiReady) return;
@@ -291,6 +361,10 @@ function onYouTubeIframeAPIReady() {
 	});
 }
 
+/**
+ * Initializes the video player and its controls once the player is ready.
+ * Ensures that the initialization occurs only once.
+ */
 let isPlayerReady = false;
 function onPlayerReady() {
 	if (isPlayerReady) return;
@@ -307,6 +381,14 @@ function onPlayerReady() {
 	initializeFullscreenBtn();
 }
 
+/**
+ * Handles the state change of the video player.
+ * 0: ended,
+ * 1: playing,
+ * 2: paused,
+ * 3: buffering,
+ * 5: video cued.
+ */
 function onPlayerStateChange(event) {
 	const videoPlayer = document.querySelector("#video-player");
 	const playPauseBtn = document.querySelector(".play-pause-btn");
